@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Simple Music Player</title>
+  <style>
+        .formBox{
+            padding: 0.5rem 2rem;
+        }
+    </style>
+    <!--Animation-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <!--Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Mukta+Mahee&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+  <div class="header">
+
+    <p>
+      <pre class="animate__animated animate__lightSpeedInLeft">
+ Audio
+ Player
+      </pre>
+    </p>
+    <br /><br /><br />
+  </div>
+  <div class="player">
+      <div class="formBox animate__animated animate__fadeInDownBig">
+          <label for="title" >Name</label>
+          <input type="text" id="title"  placeholder="Song" class="upload-box"/>
+          <label for="yr" >Artist</label>
+          <input type="text" id="yr" placeholder="Artist" class="upload-box"/>
+      </div>
+      <div id="wrapper animate__animated animate__fadeInDownBig">
+        <div id="fileWrapper" class="file_Wrapper">
+          <div id="info"></div>
+          <p class="animate__animated animate__fadeInDownBig">Select file to add to Music Library</p>
+          <label for="uploadedFile"></label>
+          <input type="file" name="audio" id="uploadedFile"  placeholder="path" class="upload-box animate__animated animate__fadeInDownBig"/>
+            <button id="btn" class="upload-box animate__animated animate__fadeInDownBig">Click to Add</button>
+        </div>
+      <div id="msg">
+          <pre></pre>
+      </div>
+
+      <div id="visualizer_wrapper">
+        <canvas id="canvas" width="700" height="230"></canvas>
+      </div>
+    </div>
+
+    <!-- Displaying Song Details -->
+    <section class="details animate__animated animate__lightSpeedInLeft">
+      <!-- Playing A of B-->
+      <div class="now-playing"></div>
+      <!-- image-->
+      <!--<div class="track-art"></div>-->
+      <!-- Song Name -->
+      <div class="track-name"></div>
+      <!--  Artist-->
+      <div class="track-artist"></div>
+    </section>
+
+    <!-- DIsplaying Buttons -->
+    <section class="buttons animate__animated animate__lightSpeedInLeft">
+      <div class="prev-track" onclick="new prevSong()">
+        <i class="fa fa-step-backward fa-2x"></i>
+      </div>
+      <div class="playpause-track" onclick="new playpauseSong()">
+        <i class="fa fa-play-circle fa-5x"></i>
+      </div>
+      <div class="next-track" onclick="new nextSong()">
+        <i class="fa fa-step-forward fa-2x"></i>
+      </div>
+    </section>
+
+    <!-- Displaying Seek Slider-->
+    <section class="slider_container animate__animated animate__lightSpeedInLeft">
+      <div class="current-time">00:00</div>
+      <input type="range" min="1" max="100"
+        value="0" class="seek_slider" onchange="seekTo()">
+      <div class="total-duration">00:00</div>
+    </section>
+
+    <!-- Displaying volume slider-->
+    <section class="slider_container animate__animated animate__lightSpeedInLeft">
+      <i class="fa fa-volume-down"></i>
+      <input type="range" min="1" max="100"
+        value="75" class="volume_slider" onchange="setVolume()">
+      <i class="fa fa-volume-up"></i>
+    </section>
+
+  </div>
+
+
+  <!-- Load the scripts for the player -->
+  <script type="text/javascript" src="html5_audio_visualizer.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="index.js"></script>
+  <script src="loadNewTrack.js"></script>
+  <script src="playButtons.js"></script>
+  <script src="sliders.js"></script>
+  <script>
+          const addSong = (ev)=>{
+              ev.preventDefault();  //to stop the form submitting
+              //Object literal created
+              //Pushing new chosen files to the playlist
+              let song = {
+                  name: document.getElementById('title').value,
+                  artist: document.getElementById('yr').value,
+                  path: songname()
+              }
+              playlist.push(song);
+              console.warn('added' , {playlist} );
+            }
+            function songname() {
+            var filename=  document.getElementById('uploadedFile').value;
+             filename = filename.replace(/^.*[\\\/]/, '');
+            return filename;
+          }
+          document.addEventListener('DOMContentLoaded', ()=>{
+              document.getElementById('btn').addEventListener('click', addSong);
+          });
+      </script>
+</body>
+</html>
